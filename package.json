@@ -1,7 +1,7 @@
 {
   "name": "pw-agent",
   "version": "0.1.0",
-  "description": "Headed Playwright browser with HTTP API for AI-driven control across multi-turn agent sessions.",
+  "description": "Remote-controlled headed Chromium over HTTP. NOT an autonomous LLM agent — point your own AI at it via curl.",
   "type": "module",
   "bin": {
     "pw-agent": "src/server.mjs"

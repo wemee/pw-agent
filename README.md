@@ -2,6 +2,22 @@
 
 Headed Playwright browser with HTTP API. Give AI agents a persistent browser they can drive across multi-turn conversations — manually log in once, the session is reused next run.
 
+## What this is — and what it isn't
+
+> **pw-agent is not an autonomous LLM agent.** No OpenAI key, no `agent.run("do X")`, no internal model. It does not call any AI service.
+
+It's a thin HTTP server in front of **one** Chromium page. The "agent" in the name refers to *whichever* AI you point at it — Claude Code, Cursor, your own script — which drives the browser by sending `curl` requests. All intelligence lives in the caller; pw-agent is just the muscle and the persistent session.
+
+If you want an autonomous LLM that decides where to click on its own, you want [browser-use](https://github.com/browser-use/browser-use) or similar — **not this**.
+
+| | pw-agent | autonomous browser-LLM (e.g. browser-use) |
+|---|---|---|
+| Has an LLM inside | ❌ no | ✅ yes |
+| Needs `OPENAI_API_KEY` | ❌ no | ✅ yes |
+| Decides actions on its own | ❌ no, caller decides | ✅ yes |
+| Persists login across many sessions | ✅ yes (`storageState`) | varies |
+| Interface | HTTP API | usually a `run(task)` function |
+
 ## Quick start
 
 ```bash
@@ -67,6 +83,10 @@ npx --yes github:wemee/pw-agent#main --url=...
 ## For AI agents
 
 If a human pointed you at this repo, or said "use pw-agent", here is the playbook. Read it once, then act.
+
+### First: read this carefully, do not pattern-match the name
+
+pw-agent is **not** a browser-using LLM agent like browser-use / Auto-GPT. There is no `agent.run(task)` function. There is no OpenAI dependency. **You** are the agent. pw-agent only exposes a Chromium page over HTTP so you can drive it with `curl`. If you find yourself about to write `import { PlaywrightAgent } from 'pw-agent'`, stop — that does not exist; you hallucinated it.
 
 ### Assume the human has already started the server
 
